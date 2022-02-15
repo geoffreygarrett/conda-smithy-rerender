@@ -11,6 +11,11 @@ inputs:
       The feedstock repository to rerender.
       {owner}/{repo}, optionally {owner}/{repo}@branch
     required: true
+  feedstock_branch:
+    description: |
+      The feedstock branch to rerender.
+    required: false
+    default: master
 outputs:
   result_code:
     description: |

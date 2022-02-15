@@ -11,7 +11,7 @@ jobs:
         # Put your action repo here
         uses: geoffreygarrett/conda-smithy-rerender@main
         with:
-          workflow_github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow_github_token: ${{ secrets.WORKFLOW_TOKEN }}
           feedstock_repository: tudat-team/tudatpy-feedstock
 
       - name: Check outputs
