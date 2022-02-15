@@ -4,8 +4,8 @@ import \
 import sys
 
 def main():
-    github_token = os.environ["WORKFLOW_GITHUB_TOKEN"]
-    feedstock_url = os.environ["FEEDSTOCK_URL"]
+    github_token = os.environ["INPUT_WORKFLOW_GITHUB_TOKEN"]
+    feedstock_url = os.environ["INPUT_FEEDSTOCK_URL"]
     modified_url = "/".join(feedstock_url.split("/")[-3:])
 
     result_code = ...
