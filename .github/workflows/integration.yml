@@ -9,7 +9,7 @@ jobs:
         id: selftest
 
         # Put your action repo here
-        uses: geoffreygarrett/conda-smithy-rerender@master
+        uses: geoffreygarrett/conda-smithy-rerender@main
         with:
           workflow_github_token: ${{ secrets.GITHUB_TOKEN }}
           feedstock_url: "https://github.com/tudat-team/tudatpy-feedstock"
