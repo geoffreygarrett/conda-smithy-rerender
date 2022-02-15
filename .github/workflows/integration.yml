@@ -12,7 +12,7 @@ jobs:
         uses: geoffreygarrett/conda-smithy-rerender@main
         with:
           workflow_github_token: ${{ secrets.GITHUB_TOKEN }}
-          feedstock_url: "https://github.com/tudat-team/tudatpy-feedstock"
+          feedstock_repository: tudat-team/tudatpy-feedstock
 
       - name: Check outputs
         run: |
