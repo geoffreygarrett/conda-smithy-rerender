@@ -1,0 +1,21 @@
+name: Integration Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Self test
+        id: selftest
+
+        # Put your action repo here
+        uses: geoffreygarrett/conda-smithy-rerender@master
+        with:
+          workflow_github_token: ${{ secrets.GITHUB_TOKEN }}
+          feedstock_url: "https://github.com/tudat-team/tudatpy-feedstock"
+
+      - name: Check outputs
+        run: |
+          echo "${{ steps.selftest.outputs.result_code }}"
+          echo "${{ steps.selftest.outputs.run_url }}"
+          echo "${{ steps.selftest.outputs.modified_url }}"

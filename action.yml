@@ -1,0 +1,29 @@
+name: "Rerender feedstock"
+description: "Rerender a conda-smithy feedstock"
+author: "Geoffrey Garrett"
+inputs:
+  workflow_github_token:
+    description: |
+      The GitHub token, with workflow permissions, to modify the feedstock.
+    required: true
+  feedstock_url:
+    description: |
+      The URL of the feedstock to rerender.
+      This can be a GitHub URL.
+    required: true
+outputs:
+  result_code:
+    description: |
+      The result code of the rerender.
+      0 = success, 1 = failure
+  run_url:
+    description: |
+      The URL of the run of the action.
+      This can be used to inspect the log.
+  modified_url:
+    description: |
+      The URL of the modified feedstock.
+      This can be used to inspect the feedstock.
+runs:
+  using: "docker"
+  image: "Dockerfile"
