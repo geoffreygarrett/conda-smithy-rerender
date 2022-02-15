@@ -16,14 +16,40 @@ outputs:
     description: |
       The result code of the rerender.
       0 = success, 1 = failure
+    value: ${{ steps.run-url-step.outputs.run_url }}
   run_url:
     description: |
       The URL of the run of the action.
       This can be used to inspect the log.
-  modified_url:
-    description: |
-      The URL of the modified feedstock.
-      This can be used to inspect the feedstock.
+    value: ${{ steps.run-url-step.outputs.run_url }}
+
 runs:
-  using: "docker"
-  image: "Dockerfile"
+  using: "composite"
+  steps:
+   - uses: actions/checkout@v2
+   - name: Set up Python 3.8
+     uses: actions/setup-python@v2
+     with:
+       python-version: 3.8
+   - uses: s-weigand/setup-conda@v1
+     with:
+       activate-conda: true
+   - name: Update conda
+     shell: bash
+     run: |
+       conda update conda
+   - name: Install conda-smithy
+     shell: bash
+     run: |
+       conda install -n root -c conda-forge conda-smithy
+   - id: run-url-step
+     run: echo "::set-output name=run_url::${{ github.server_url }}/${{ github.repository }}/${{ github.run_id }}"
+     shell: bash
+   - id: exit-code-step
+     run: |
+       if [[ $? -eq 0 ]]; then
+         echo "::set-output name=result_code::0"
+       else
+         echo "::set-output name=result_code::1"
+       fi
+     shell: bash
