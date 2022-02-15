@@ -6,10 +6,10 @@ inputs:
     description: |
       The GitHub token, with workflow permissions, to modify the feedstock.
     required: true
-  feedstock_url:
+  feedstock_repository:
     description: |
-      The URL of the feedstock to rerender.
-      This can be a GitHub URL.
+      The feedstock repository to rerender.
+      {owner}/{repo}, optionally {owner}/{repo}@branch
     required: true
 outputs:
   result_code:
@@ -45,7 +45,7 @@ runs:
    - id: checkout_feedstock
      uses: actions/checkout@v2
      with:
-       repository: $(echo ${feedstock_url} | rev | cut -d '/' -f 2 | rev)/$(echo ${feedstock_url} | rev | cut -d '/' -f 1 | rev)
+       repository: ${{ inputs.feedstock_repository }}
        branch: master
        token: ${{ inputs.workflow_github_token }}
        path: feedstock
@@ -56,7 +56,7 @@ runs:
        git config user.name "${GITHUB_ACTOR}"
        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
        conda smithy rerender -c auto
-       git push --all -f https://${{ inputs.workflow_github_token }}@github.com/$(echo ${feedstock_url} | rev | cut -d '/' -f 2 | rev)/$(echo ${feedstock_url} | rev | cut -d '/' -f 1 | rev).git
+       git push --all -f https://${{ inputs.workflow_github_token }}@github.com/${{ inputs.feedstock_repository }}.git
    - id: run-url-step
      run: echo "::set-output name=run_url::${{ github.server_url }}/${{ github.repository }}/${{ github.run_id }}"
      shell: bash
