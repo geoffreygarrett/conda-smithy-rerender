@@ -46,14 +46,14 @@ runs:
      uses: actions/checkout@v2
      with:
        repository: ${{ inputs.feedstock_repository }}
-       branch: master
        token: ${{ inputs.workflow_github_token }}
        path: feedstock
    - name: Rerender feedstock
      shell: bash
      run: |
        ls -a
-       cd ${GITHUB_WORKSPACE}/$(echo ${{ inputs.feedstock_repository }} | rev | cut -d '/' -f 1 | rev)
+       cd ${GITHUB_WORKSPACE}/feedstock
+       ls -a
        git config user.name "${GITHUB_ACTOR}"
        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
        conda smithy rerender -c auto
