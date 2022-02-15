@@ -45,7 +45,7 @@ runs:
    - id: checkout_feedstock
      uses: actions/checkout@v2
      with:
-       url: ${{ inputs.feedstock_url }}
+       repository: $(echo ${feedstock_url} | rev | cut -d '/' -f 2 | rev)/$(echo ${feedstock_url} | rev | cut -d '/' -f 1 | rev)
        branch: master
        token: ${{ inputs.workflow_github_token }}
        path: feedstock
