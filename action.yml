@@ -42,6 +42,19 @@ runs:
      shell: bash
      run: |
        conda install -n root -c conda-forge conda-smithy
+   - id: checkout_feedstock
+     uses: actions/checkout@v2
+     with:
+       url: ${{ inputs.feedstock_url }}
+       branch: master
+       token: ${{ inputs.workflow_github_token }}
+   - name: Rerender feedstock
+     shell: bash
+     run: |
+       git config user.name "${GITHUB_ACTOR}"
+       git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+       conda smithy rerender -c auto
+       git push --all -f https://${{ inputs.workflow_github_token }}@github.com/${{ checkout_feedstock.repository }}.git
    - id: run-url-step
      run: echo "::set-output name=run_url::${{ github.server_url }}/${{ github.repository }}/${{ github.run_id }}"
      shell: bash
