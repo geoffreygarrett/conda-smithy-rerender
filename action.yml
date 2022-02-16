@@ -2,11 +2,11 @@ name: "Rerender feedstock"
 description: "Rerender a conda-smithy feedstock"
 author: "Geoffrey Garrett"
 inputs:
-  workflow_github_token:
+  token:
     description: |
       The GitHub token, with workflow permissions, to modify the feedstock.
     required: true
-  feedstock_repository:
+  repository:
     description: |
       The feedstock repository to rerender.
       {owner}/{repo}, optionally {owner}/{repo}@branch
@@ -50,8 +50,7 @@ runs:
    - id: checkout_feedstock
      uses: actions/checkout@v2
      with:
-       repository: ${{ inputs.feedstock_repository }}
-       token: ${{ github.token }}
+       repository: ${{ inputs.repository }}
        path: feedstock
    - name: Rerender feedstock
      shell: bash
@@ -62,7 +61,7 @@ runs:
        git config user.name "${GITHUB_ACTOR}"
        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
        conda smithy rerender -c auto
-       git push --all -f https://${{ inputs.workflow_github_token }}@github.com/${{ inputs.feedstock_repository }}.git
+       git push --all -f https://${{ inputs.token }}@github.com/${{ inputs.repository }}.git
    - id: run-url-step
      run: echo "::set-output name=run_url::${{ github.server_url }}/${{ github.repository }}/${{ github.run_id }}"
      shell: bash
