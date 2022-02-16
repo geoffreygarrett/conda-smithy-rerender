@@ -52,6 +52,7 @@ runs:
      with:
        repository: ${{ inputs.repository }}
        path: feedstock
+       token: ${{ inputs.token }}
    - name: Rerender feedstock
      shell: bash
      run: |
