@@ -51,7 +51,7 @@ runs:
      uses: actions/checkout@v2
      with:
        repository: ${{ inputs.feedstock_repository }}
-       token: ${{ inputs.workflow_github_token }}
+       token: ${{ github.token }}
        path: feedstock
    - name: Rerender feedstock
      shell: bash
